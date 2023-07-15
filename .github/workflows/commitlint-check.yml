@@ -6,7 +6,6 @@ on:
 jobs:
 
   run-all-checks:
-    timeout-minutes: 1
     runs-on: ubuntu-latest
 
     steps:
@@ -39,5 +38,5 @@ jobs:
         run: npx playwright install
 
       - name: Run E2E Testing
-        run: npm run e2e
+        run: playwright test --project=chromium
 
