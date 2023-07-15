@@ -39,5 +39,5 @@ jobs:
         run: npx playwright install
 
       - name: Run E2E Testing
-        run: npm run e2e
+        run: xvfb-run npm run e2e
 
