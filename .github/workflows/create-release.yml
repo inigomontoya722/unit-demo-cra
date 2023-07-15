@@ -1,14 +1,16 @@
 name: Release
 
 on:
-  pull_request:
+  push:
+    tags:
+      - v[0-9]+
 permissions: write-all
 
 jobs:
   create-issue:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - name: Create Issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
