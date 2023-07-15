@@ -14,4 +14,4 @@ jobs:
       - name: Create Issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh issue create --title "RELEASE" --body "${{github.ref}}"
+        run: gh issue create --title "RELEASE" --body "${{github.ref_name}} ${{ github.actor }}"
