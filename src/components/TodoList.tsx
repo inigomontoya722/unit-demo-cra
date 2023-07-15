@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useCallback } from "react";
+import React, { ChangeEvent, FC, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ApplicationState, addItem, setText } from "../store";
 import { TodoItem } from "./TodoItem";
