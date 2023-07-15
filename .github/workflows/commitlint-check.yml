@@ -36,7 +36,7 @@ jobs:
         run: npm run test-ci
 
       - name: Run Mock Server
-        run: npm run start
+        run: npm run start &
 
       - name: Run E2E Testing
         run: npm run e2e
