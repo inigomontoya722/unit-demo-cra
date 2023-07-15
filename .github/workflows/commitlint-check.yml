@@ -38,5 +38,5 @@ jobs:
         run: npx playwright install
 
       - name: Run E2E Testing
-        run: playwright test --project=chromium
+        run: npm run e2e
 
