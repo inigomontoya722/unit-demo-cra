@@ -11,7 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Create Issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh issue create --title "RELEASE" --body "${{github.ref_name}} ${{ github.actor }}"
+        run: gh issue create --title "RELEASE" --body "${{github.ref_name}} ${{ github.actor }} ${{ steps.date.outputs.date }}"
