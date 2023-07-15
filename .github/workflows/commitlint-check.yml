@@ -35,8 +35,8 @@ jobs:
       - name: Run Unit Testing
         run: npm run test-ci
 
-      - name: Run Mock Server
-        run: npm run start &
+      - name: Install playwright
+        run: npx playwright install
 
       - name: Run E2E Testing
         run: npm run e2e
