@@ -6,6 +6,7 @@ on:
 jobs:
 
   run-all-checks:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +29,15 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
+      - name: Build App
+        run: npm run build
+
       - name: Run Unit Testing
         run: npm run test-ci
-        
+
+      - name: Run Mock Server
+        run: npm run start
+
+      - name: Run E2E Testing
+        run: npm run e2e
+
