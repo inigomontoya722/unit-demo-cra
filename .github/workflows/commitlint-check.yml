@@ -3,8 +3,7 @@ name: Check
 on:
   pull_request:
   workflow_run:
-    workflows:
-      - "Release"
+    workflows: ["Release"]
     types:
       - completed
 
