@@ -18,25 +18,8 @@ jobs:
         id: changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: git tag -l | sort -u -r | while read TAG ; do
-              if [[ "$NEXT" == "$TARGET" ]] ; then 
-                echo
-                if [ $NEXT ] ; then
-                  echo [$NEXT]
-                else
-                  echo "[Current]"
-                fi
-                echo "::set-output name=date::$(cat git log --no-merges --format=" * %s" $TAG..$NEXT)"
-                  break
-              fi
-              NEXT=$TAG
-            done
-            FIRST=$(git tag -l | head -1)
-            if [[ "$FIRST" == "$TARGET" ]] ; then
-              echo
-              echo [$FIRST]
-              echo "::set-output name=date::$(cat git log --no-merges --format=" * %s" $FIRST)"
-            fi
+        run: ./.github/scripts/changelog
+        shell: bash
       - name: Create Issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
