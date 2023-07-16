@@ -10,4 +10,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: test
-        run: git log --oneline --decorate
+        run: git log --oneline --decorate | cat
