@@ -55,6 +55,13 @@ jobs:
       - name: Build App
         run: npm run build
 
+      - name: Archive production artifacts
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: build
+
       # - name: Run Unit Testing
       #   run: npm run test-ci
 
@@ -84,6 +91,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Download a build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build
       - name: Check build
         run: ls ./build
       - name: Setup Pages
