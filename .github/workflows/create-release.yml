@@ -69,5 +69,5 @@ jobs:
     steps:
       - name: Link for Issue
         env:
-          ISSUE: ${{needs.create-issue.outputs.issue}}
+          ISSUE: ${{needs.create-issue.outputs.issueid}}
         run: echo "$ISSUE"
