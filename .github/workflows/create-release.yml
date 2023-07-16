@@ -19,9 +19,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: git tag -l | sort -u -r | while read TAG ; do
-              if [[ "$NEXT" == "$TARGET" ]];then 
+              if [[ "$NEXT" == "$TARGET" ]] ; then 
                 echo
-                if [ $NEXT ];then
+                if [ $NEXT ] ; then
                   echo [$NEXT]
                 else
                   echo "[Current]"
@@ -32,7 +32,7 @@ jobs:
               NEXT=$TAG
             done
             FIRST=$(git tag -l | head -1)
-            if [[ "$FIRST" == "$TARGET" ]];then
+            if [[ "$FIRST" == "$TARGET" ]] ; then
               echo
               echo [$FIRST]
               echo "::set-output name=date::$(cat git log --no-merges --format=" * %s" $FIRST)"
