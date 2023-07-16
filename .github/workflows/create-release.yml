@@ -13,8 +13,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "::set-output name=date::$(date)"
+      - name: Get changelog
+        id: changelog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "::set-output name=changelog::$(git shortlog ${{github.ref_name}})"
       - name: Create Issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh issue create --title "RELEASE" --body "${{github.ref_name}} ${{ github.actor }} ${{ steps.date.outputs.date }}"
+        run: gh issue create --title "RELEASE" --body "${{github.ref_name}} ${{ github.actor }} ${{ steps.date.outputs.date }} ${{steps.changelog.outputs.changelog}}"
