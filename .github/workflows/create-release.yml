@@ -11,6 +11,8 @@ jobs:
   create-issue:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
+    outputs:
+      issueid: ${{steps.}}
     steps:
       - uses: actions/checkout@v2
       - name: Get current date
@@ -21,9 +23,10 @@ jobs:
       - name: Add changelog
         run: echo $"Changelog $(./.github/scripts/changelog ${{github.ref_name}})" >> template.md
       - name: Create Issue
+        id: issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh issue create --title "RELEASE" --body-file template.md
+        run: echo "issue=$(gh issue create --title "RELEASE" --body-file template.md)" >> "$GITHUB_OUTPUT"
 
   run-all-checks:
     runs-on: ubuntu-latest
@@ -43,6 +46,7 @@ jobs:
         run: npm install
 
       - name: Validate all commits with commitlint from PR
+        if: github.event_name == 'pull_request'
         run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
       - name: Run ESLint
@@ -59,3 +63,11 @@ jobs:
 
       - name: Run E2E Testing
         run: npm run e2e
+  close-issue:
+    runs-on: ubuntu-latest
+    needs: create-issue
+    steps:
+      - name: Link for Issue
+        env:
+          ISSUE: ${{needs.create-issue.outputs.issue}}
+        run: echo "$ISSUE"
