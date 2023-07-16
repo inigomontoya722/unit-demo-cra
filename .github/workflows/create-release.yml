@@ -27,6 +27,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: echo "issue=$(gh issue create --title "RELEASE" --body-file template.md)" >> "$GITHUB_OUTPUT"
+      - name: Fake error
+        run: asdad
 
   run-all-checks:
     runs-on: ubuntu-latest
@@ -65,10 +67,14 @@ jobs:
         run: npm run e2e
   close-issue:
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     needs: create-issue
     steps:
       - name: Link for Issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{needs.create-issue.outputs.issueid}}
-        run: gh issue comment $ISSUE --body 'test'
+        run: gh issue comment $ISSUE --body "$ISSUE"
+      - name: Deploy
+        if: ${{ needs.create-issue.result }} == 'success'
+        run: echo 'SUCCESS'

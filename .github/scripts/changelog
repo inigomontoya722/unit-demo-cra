@@ -12,6 +12,6 @@ done
 FIRST=$(git tag -l | head -1)
 if [[ "$FIRST" == "$TARGET" ]] ; then
   git log --oneline --decorate $FIRST | while read COMMIT ; do
-      echo $COMMIT
-    done
+    echo $COMMIT
+  done
 fi
