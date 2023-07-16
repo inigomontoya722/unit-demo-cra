@@ -18,7 +18,7 @@ jobs:
         id: changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: echo "::set-output name=changelog::$(./.github/scripts/changelog ${{github.ref_name}})"
+        run: echo "changelog=$(./.github/scripts/changelog ${{github.ref_name}})" >> $GITHUB_OUTPUT
       - name: Create Issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
