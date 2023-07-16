@@ -2,6 +2,10 @@ name: Check
 
 on:
   pull_request:
+  workflow_run:
+    workflows: [Release]
+    types:
+      - completed
 
 jobs:
 

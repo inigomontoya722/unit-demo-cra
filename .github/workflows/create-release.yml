@@ -14,30 +14,11 @@ jobs:
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date)"
-      - name: Get changelog
-        id: changelog
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: git tag -l | sort -u -r | while read TAG ; do
-              if [[ "$NEXT" == "$TARGET" ]] ; then 
-                echo
-                if [ $NEXT ] ; then
-                  echo [$NEXT]
-                else
-                  echo "[Current]"
-                fi
-                echo "::set-output name=date::$(cat git log --no-merges --format=" * %s" $TAG..$NEXT)"
-                  break
-              fi
-              NEXT=$TAG
-            done
-            FIRST=$(git tag -l | head -1)
-            if [[ "$FIRST" == "$TARGET" ]] ; then
-              echo
-              echo [$FIRST]
-              echo "::set-output name=date::$(cat git log --no-merges --format=" * %s" $FIRST)"
-            fi
+      - name: Create Issue text
+        run: echo $'Tag ${{github.ref_name}}\nAuthor ${{ github.actor }}\nDate ${{ steps.date.outputs.date }}\n' >> template.md
+      - name: Add changelog
+        run: echo $"Changelog $(./.github/scripts/changelog ${{github.ref_name}})" >> template.md
       - name: Create Issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh issue create --title "RELEASE" --body "${{github.ref_name}} ${{ github.actor }} ${{ steps.date.outputs.date }} ${{steps.changelog.outputs.changelog}}"
+        run: gh issue create --title "RELEASE" --body-file template.md

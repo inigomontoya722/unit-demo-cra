@@ -1,1 +1,2 @@
-RELEASE
+NEW 1
+NEW 2
