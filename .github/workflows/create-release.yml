@@ -1,6 +1,7 @@
 name: Release
 
 on:
+  pull_request:
   push:
     tags:
       - v[0-9]+
@@ -8,6 +9,7 @@ permissions: write-all
 
 jobs:
   create-issue:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,3 +24,38 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh issue create --title "RELEASE" --body-file template.md
+
+  run-all-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Validate all commits with commitlint from PR
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Build App
+        run: npm run build
+
+      - name: Run Unit Testing
+        run: npm run test-ci
+
+      - name: Install playwright
+        run: npx playwright install
+
+      - name: Run E2E Testing
+        run: npm run e2e
