@@ -22,7 +22,7 @@ jobs:
       - name: Create Issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh issue create --title "RELEASE" --body "Tag ${{github.ref_name}}
-                                                       Author ${{ github.actor }}
-                                                       Date ${{ steps.date.outputs.date }}
+        run: gh issue create --title "RELEASE" --body $"Tag ${{github.ref_name}}\n
+                                                       Author ${{ github.actor }}\n
+                                                       Date ${{ steps.date.outputs.date }}\n
                                                        Changelog ${{steps.changelog.outputs.changelog}}"
