@@ -69,5 +69,6 @@ jobs:
     steps:
       - name: Link for Issue
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{needs.create-issue.outputs.issueid}}
         run: gh issue comment $ISSUE --body 'test'
