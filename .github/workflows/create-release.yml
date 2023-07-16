@@ -19,9 +19,9 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date)"
       - name: Create Issue text
-        run: echo $'Tag ${{github.ref_name}}\nAuthor ${{ github.actor }}\nDate ${{ steps.date.outputs.date }}\n' >> template.md
+        run: echo $'Tag ${{github.ref_name}}\nAuthor ${{ github.actor }}\nDate ${{ steps.date.outputs.date }}\n Changelog\n' >> template.md
       - name: Add changelog
-        run: echo $"Changelog $(./.github/scripts/changelog ${{github.ref_name}})" >> template.md
+        run: echo $"$(./.github/scripts/changelog ${{github.ref_name}})" >> template.md
       - name: Create Issue
         id: issue
         env:
@@ -70,4 +70,4 @@ jobs:
       - name: Link for Issue
         env:
           ISSUE: ${{needs.create-issue.outputs.issueid}}
-        run: echo "$ISSUE"
+        run: gh issue comment $ISSUE --body 'test'
