@@ -1,2 +1,1 @@
-title: [ARTICLE TITLE]
-author: [GITHUB USERNAME]
+NEW 1
