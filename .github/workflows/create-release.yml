@@ -19,10 +19,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: echo "::set-output name=changelog::$(./.github/scripts/changelog ${{github.ref_name}})"
+      - name: Create Issue text
+        run: echo $'Tag ${{github.ref_name}}\nAuthor ${{ github.actor }}\nDate ${{ steps.date.outputs.date }}\nChangelog ${{steps.changelog.outputs.changelog}}' >> template.txt
       - name: Create Issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh issue create --title "RELEASE" --body "$'Tag ${{github.ref_name}}\n
-                                                       Author ${{ github.actor }}\n
-                                                       Date ${{ steps.date.outputs.date }}\n
-                                                       Changelog ${{steps.changelog.outputs.changelog}}'"
+        run: gh issue create --title "RELEASE" --template template.txt
