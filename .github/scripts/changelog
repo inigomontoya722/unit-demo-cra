@@ -1,5 +1,5 @@
 #!/bin/bash
-git tag -l | sort -u -r | while read TAG ; do
+git tag -l | sort -V -u -r | while read TAG ; do
               if [[ "$NEXT" == "$TARGET" ]] ; then 
                 echo
                 if [ $NEXT ] ; then
