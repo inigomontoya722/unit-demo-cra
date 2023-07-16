@@ -17,9 +17,9 @@ jobs:
       - name: Create Issue text
         run: echo $'Tag ${{github.ref_name}}\nAuthor ${{ github.actor }}\nDate ${{ steps.date.outputs.date }}\n' >> template.md
       - name: Add changelog
-        run: echo $"Changelog $(./.github/scripts/changelog ${{github.ref_name}})" >> template.md
+        run: echo $"Changelog $(./.github/scripts/changelog ${{github.ref_name}}) ss" >> template.md
       - name: Test script
-        run: echo $"Changelog $(./.github/scripts/changelog ${{github.ref_name}})"
+        run: echo $"Changelog $(./.github/scripts/changelog ${{github.ref_name}}) ss"
       - name: Test file
         run: cat template.md
       - name: Create Issue
