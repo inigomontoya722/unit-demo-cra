@@ -2,12 +2,6 @@
 TARGET=$1
 git tag -l | sort -V -u -r | while read TAG ; do
   if [[ "$NEXT" == "$TARGET" ]] ; then 
-    echo
-    if [ $NEXT ] ; then
-      echo [$NEXT]
-    else
-      echo "[Current]"
-    fi
     GIT_PAGER=cat git log --no-merges --format=" * %s" $TAG..$NEXT
     break
     fi
@@ -15,7 +9,5 @@ git tag -l | sort -V -u -r | while read TAG ; do
 done
 FIRST=$(git tag -l | head -1)
 if [[ "$FIRST" == "$TARGET" ]] ; then
-  echo
-  echo [$FIRST]
   GIT_PAGER=cat git log --no-merges --format=" * %s" $FIRST
 fi
