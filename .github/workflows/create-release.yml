@@ -95,7 +95,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build
-          path: '.'
+          path: build
       - name: Check build
         run: ls
       - name: Setup Pages
