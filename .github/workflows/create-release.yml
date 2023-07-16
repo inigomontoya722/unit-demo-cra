@@ -71,7 +71,7 @@ jobs:
       - name: Link for Issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE: ${{needs.run-all-checks.outputs.issueid}}
+          ISSUE: ${{needs.create-issue.outputs.issueid}}
         run: gh issue comment $ISSUE --body $"RESULT&#58; ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} (**${{ needs.create-issue.result }}**)"
       - name: Deploy
         if: needs.create-issue.result == 'success'
