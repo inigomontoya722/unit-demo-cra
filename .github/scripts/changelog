@@ -2,12 +2,12 @@
 TARGET=$1
 git tag -l | sort -V -u -r | while read TAG ; do
   if [[ "$NEXT" == "$TARGET" ]] ; then 
-    GIT_PAGER=cat git log --no-merges --format=" * %s" $TAG..$NEXT
+    git log --no-merges --format=" * %s" $TAG..$NEXT
     break
     fi
   NEXT=$TAG
 done
 FIRST=$(git tag -l | head -1)
 if [[ "$FIRST" == "$TARGET" ]] ; then
-  GIT_PAGER=cat git log --no-merges --format=" * %s" $FIRST
+  git log --no-merges --format=" * %s" $FIRST
 fi
