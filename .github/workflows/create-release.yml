@@ -14,7 +14,13 @@ jobs:
     outputs:
       issueid: ${{steps.issue.outputs.issue}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2s
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+      - name: Test script
+        run: node ci/create-issue-template
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date)"
@@ -27,8 +33,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: echo "issue=$(gh issue create --title "RELEASE" --body-file template.md)" >> "$GITHUB_OUTPUT"
-      - name: Fake error
-        run: asdad
 
   run-all-checks:
     runs-on: ubuntu-latest
