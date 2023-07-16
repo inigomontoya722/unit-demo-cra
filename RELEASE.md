@@ -1,3 +1,2 @@
 NEW 1
 NEW 2
-NEW 3
