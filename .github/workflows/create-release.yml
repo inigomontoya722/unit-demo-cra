@@ -19,8 +19,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: export CHANGELOG="$(./.github/scripts/changelog ${{github.ref_name}})"
-      - name: Test
-        run: echo "${{ CHANGELOG }} ${{ vars.CHANGELOG }}"
       - name: Create Issue text
         run: echo $'Tag ${{github.ref_name}}\nAuthor ${{ github.actor }}\nDate ${{ steps.date.outputs.date }}\nChangelog ${{ vars.CHANGELOG }}' >> template.txt
       - name: Create Issue
