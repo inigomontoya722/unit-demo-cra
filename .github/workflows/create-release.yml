@@ -26,7 +26,7 @@ jobs:
         id: issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: echo "issue=$(gh issue create --title "Release&#58; $"${{github.ref_name}}"" --label "release" --body-file template.md)" >> "$GITHUB_OUTPUT"
+        run: echo "issue=$(gh issue create --title "Release "${{github.ref_name}}"" --label "release" --body-file template.md)" >> "$GITHUB_OUTPUT"
 
   run-all-checks:
     runs-on: ubuntu-latest
@@ -70,7 +70,7 @@ jobs:
 
       - name: Run E2E Testing
         run: npm run e2e
-  close-issue:
+  comment-issue:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     needs: [run-all-checks, create-issue]
@@ -79,11 +79,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{needs.create-issue.outputs.issueid}}
-        run: gh issue close $ISSUE --comment $"RESULT&#58; ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} (**${{ needs.create-issue.result }}**)"
+        run: gh issue comment $ISSUE --body $"RESULT&#58; ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} (**${{ needs.create-issue.result }}**)"
 
   pages-deploy:
     runs-on: ubuntu-latest
-    needs: [create-issue, close-issue, run-all-checks]
+    needs: [create-issue, comment-issue, run-all-checks]
     if: needs.run-all-checks.result == 'success'
     steps:
       - name: Checkout
@@ -104,3 +104,13 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+
+  close-issue:
+    runs-on: ubuntu-latest
+    needs: [pages-deploy, create-issue]
+    steps:
+      - name: Close Issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{needs.create-issue.outputs.issueid}}
+        run: gh issue close $ISSUE --comment "🚀 DEPLOY SUCCESSFULL"
