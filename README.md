@@ -1,3 +1,4 @@
+tg: https://t.me/inigo_montoya722
 В этом репозитории находится пример приложения с тестами:
 
 - [e2e тесты](e2e/example.spec.ts)
